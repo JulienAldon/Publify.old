@@ -1,0 +1,62 @@
+html {
+	font-family: 'Montserrat', sans-serif;
+}
+body {
+	background-color: rgb(22, 20, 20);
+}
+a {
+	color: white;
+	text-decoration: none !important;
+}
+p {
+	font-size: x-large;
+}
+.btn-menu {
+	margin-top: 20px;
+	border: 0;
+	height: 80px;
+	font-weight: bold;
+	font-size: 200%;
+	color: white;
+}
+.btn-menu:hover {
+	color: #1ED760;
+	background-color: white;
+}
+.btn-sync {
+	border: 0;
+	color: white;
+}
+.btn-sync:hover {
+	color: #1ED760;
+	background-color: white;
+}
+.btn {
+	background-color: #1ED760;
+}
+.list-group-item {
+	border-color: #a0F2BD;
+}
+.pair {
+	background-color: rgb(22, 20, 20);
+}
+.odd {
+	background-color: rgb(32, 30, 30);
+}
+
+#mypl a:hover {
+	background: #a0F2BD;
+}
+
+footer {
+	margin-top: 100px;
+	color: white;
+	background-color: rgb(37, 37, 37);
+	height: 50px;
+}
+.text-footer {
+	font-size: 0.8em !important;
+}
+#last {
+	padding-right: -50px !important;	
+}

@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="../static/css/base.css">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+		<title>Spotify Updater</title>
+	</head>
+	<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="{{ url_for('index') }}">Spotify Tools</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="{{ url_for('index') }}">Updater</a></li>
+				<li><a href="{{ url_for('radio') }}">Radio</a></li>
+			</ul>
+		</div>
+	</nav>
+		<div class="container-fluid">
+			<div class="row" style="margin-top: 30px;">
+				<div class="col-12 text-center text-light">
+					<h1><b>Welcome to Publifly !</b></h1><br>
+				</div>
+			</div>
+			{% if 'access_token' not in session %}
+			<div class="row">
+				<div class="col-12 col-md-4 offset-md-4 text-center text-light">
+					<h5>This app's purpose is to synchronize spotify
+						collaborative playlists and public playlists
+						in order to share collaborative playlists without
+						letting everyone modify them.</h5>
+				</div>
+			</div>
+			<div class="row text-center" style="margin-top: 100px;">
+				<div class="col-10 offset-1 col-md-4 offset-md-4 col-lg-2 offset-lg-5">
+					<a href="{{ url_for('spotify_api_login') }}"><button type="button" class="btn btn-block btn-menu">Login</button></a>
+					<!-- <a href="{{ url_for('spotify_api_login') }}"><button type="button" class="btn btn-block btn-menu">Logout</button></a>		 -->
+				</div>
+			</div> 
+			{% endif %}
+			{% if 'access_token' in session %}			
+			{% if PlaylistLinks %}			
+			<div class="row text-light" style="margin-top: 100px;">
+				<div class="col-12 text-center">
+					<h2>Playlist already linked</h2>
+				</div>
+			</div>
+			<div class="row text-light text-center" style="margin-top: 20px;">
+				<div class="col-12 col-md-10 offset-md-1">
+					<ul class="list-group list-group-flush">
+						{% for col, pub in PlaylistLinks %}
+						{% if loop.index0 % 2 == 0 %}
+						<li class="list-group-item pair">
+						{% else %}
+						<li class="list-group-item odd">
+						{% endif %}						
+							<div class="row">
+								<div class="list-group col-5">
+									<div class="list-group-item list-group-item-light" style="color: #767676; border-radius: 4px;">{{ pub }}</div>
+								</div>
+								<div class="col-2">
+									<div>
+										<button type="button" onclick="call_script_or_run_code_here" class="btn btn-sm btn-sync">Sync</button>										
+									</div>
+								</div>
+								<div class="list-group col-5">
+									<div class="list-group-item list-group-item-light" style="color: #767676;border-radius: 4px;">{{ col }}</div>
+								</div>
+							</div>
+						</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-12 text-center">
+					<form method="post" action="/index">
+					<button type="submit" value="sync" name="submit" class="btn btn-lg btn-sync">Sync all playlists</button>
+					</form>
+				</div>
+			</div>
+			{% endif %}
+			{% if 'access_token' in session %}
+			<form method="post" action="/index">
+				<div class="row" style="margin-top: 100px;">
+					<div class="col-12 text-center text-white">
+						<h2>Link two playlists</h2>
+					</div>
+				</div>
+				<!-- <h2>Link two playlists</h2>
+				<div>
+				<p class=text-center>Public</p>
+				    {% for playlist in SpotPublic %}
+				    <p><b><input name="public" type="radio" value="{{ playlist }}">{{ playlist }}</b></p>
+				    {% endfor %}
+				</div>
+				<div>
+				<p>Collaborative</p>
+				{% for playlist in SpotCollab %}
+					<p><b><input name="collab" type="radio" value="{{ playlist }}">{{ playlist }}</b></p>
+				{% endfor %}
+					<input type="submit" name="link" value="link">
+				    </div>
+				</form>
+				{% endif %} -->
+				<div class="row text-white text-center" style="margin-top: 20px;">
+					<div class="col-12 col-md-5 offset-md-1">
+						<p>Public</p>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<button class="btn btn-sync dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-pub">Public Playlists</button>
+								<div class="dropdown-menu">
+									{% for pub in SpotPublic %}
+									<a class="dropdown-item pub" name="pub" value="{{ pub }}">{{ pub }}</a>
+									{% endfor %}									
+								</div>
+							</div>
+							<input type="text" class="form-control" placeholder="Search public playlists..." id="search-pub">
+						</div>
+					</div>
+					<div class="col-12 col-md-5">
+						<p>Collaborative</p>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<button class="btn btn-sync dropdown-toggle" type="submit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdown-collab">Collaborative Playlists</button>
+								<div class="dropdown-menu">
+									{% for col in SpotCollab %}
+									<a class="dropdown-item collab" name="collab" value="{{ col }}">{{ col }}</a>
+									{% endfor %}
+								</div>
+							</div>
+							<input type="text" class="form-control" placeholder="Search collaborative playlists..." id="search-collab">
+						</div>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 20px;">
+					<div class="col-12 text-center">
+						<button type="submit" id="link-playlists" name="submit" value="link" class="btn btn-lg btn-sync">Link playlists</button>
+					</div>
+				</div>
+			</form>
+			{% endif %}			
+		</div>
+		<footer style="position: fixed; bottom: 0px; width: 100%; padding-top: 20px; padding-bottom: 80px;">
+				<p class="text-footer text-center">Application réalisée par Julien Aldon et Lucas Pierru</p>
+				<p class="text-footer text-center">julien.aldon@epitech.eu<br>lucas.pierru@epitech.eu</p>
+		</footer>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" ></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script>
+			$(document).ready(function(){
+				$("#link-playlists").click(function() {
+					var public = $("#dropdown-pub").text();
+					var collab = $("#dropdown-collab").text();
+					var data = {
+						'pub': public,
+						'col': collab,
+					};
+					$.ajax({
+					type: "POST",
+					url: "{{ url_for('load_ajax') }}",
+					dataType: "text",
+					data: data,
+					contentType: 'text/plain'
+					});
+					alert('playlist linked !');
+				});
+				$(".pub").click(function(e){
+					var clicked = $(e.target).text();
+					$("#dropdown-pub").text(clicked);
+					$("#search-pub").val("");
+					$("#search-pub").attr("placeholder", clicked);
+				});
+				$(".collab").click(function(e){
+					var clicked = $(e.target).text();
+					$("#dropdown-collab").text(clicked);
+					$("#search-collab").val("");
+					$("#search-collab").attr("placeholder", clicked);
+				});
+			});
+		</script>
+	</body>
+</html>

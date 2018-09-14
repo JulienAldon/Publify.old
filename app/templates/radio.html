@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="../static/css/base.css">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+		<title>Spotify Radio</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="{{ url_for('index') }}">Spotify Tools</a>
+					</div>
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="{{ url_for('index') }}">Updater</a></li>
+						<li><a href="{{ url_for('radio') }}">Radio</a></li>
+					</ul>
+				</div>
+		</nav>
+		<div class="container-fluid">
+			<div class="row" style="margin-top: 30px;">
+				<div class="col-12 text-center text-light">
+					<h1><b>Welcome to Release-Radar 3000 !</b></h1><br>
+				</div>
+			</div>
+			{% if 'access_token' not in session %}
+			<div class="row">
+				<div class="col-12 col-md-4 offset-md-4 text-center text-light">
+					<h5>The purpose of this app is to simplify
+					 the discovery of new artists</h5>
+				</div>
+			</div>
+			<div class="row text-center" style="margin-top: 100px;">
+				<div class="col-10 offset-1 col-md-4 offset-md-4 col-lg-2 offset-lg-5">
+					<a href="{{ url_for('spotify_api_login') }}"><button type="button" class="btn btn-block btn-menu">Login</button></a>
+					<!-- <a href="{{ url_for('spotify_api_login') }}"><button type="button" class="btn btn-block btn-menu">Logout</button></a>		 -->
+				</div>
+			</div> 
+			{% endif %}
+		{% if 'access_token' in session %}
+		</div>
+		<div class="row">
+			<div class="col-md-6 offset-md-3 col-sm-12">
+				<div class="input-group">
+					<input type="text" onkeyup="searchInList()" class="form-control" placeholder="Choose a playlists..." id="search-pub">
+				</div>
+				<div class="list-group" style="overflow-y: auto; max-height: 40vh;" id="mypl">
+					{% for pub in Playlists %}
+					<a class="list-group-item list-group-item-light pub" style="color: #767676;" name="{{ pub }}" value="{{ pub }}">{{ pub }}</a>
+					{% endfor %}									
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-top: 20px;">
+			<div class="col-12 text-center">
+				<button type="submit" id="search-song" name="submit" value="search" class="btn btn-lg btn-sync">Search new songs</button>
+			</div>
+		</div>
+		{% endif %}
+		<footer style="position: fixed; bottom: 0px; width: 100%; padding-top: 20px; padding-bottom: 80px;">
+			<p class="text-footer text-center">Application réalisée par Julien Aldon et Lucas Pierru</p>
+			<p class="text-footer text-center">julien.aldon@epitech.eu<br>lucas.pierru@epitech.eu</p>
+		</footer>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" ></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script>
+			$(document).ready(function(){
+				$("#search-song").click(function() {
+					var playlist = $("#dropdown-playlist").text();
+					var data = {
+						'play': playlist,
+					};
+					$.ajax({
+					type: "POST",
+					url: "{{ url_for('load_radio') }}",
+					dataType: "text",
+					data: data,
+					contentType: 'text/plain'
+					});
+					alert('A playlist have been created...');
+				});
+				$(".pub").click(function(e){
+					var clicked = $(e.target).text();
+					$("#dropdown-pub").text(clicked);
+					$("#search-pub").val("");
+					$("#search-pub").attr("placeholder", clicked);
+				});
+			});
+			// function displayList() {
+			// 	$("#dropdown-playlist").dropdown('toggle');
+			// }
+			function searchInList() {
+				var input, filter, ul, li, a, i;
+				input = document.getElementById("search-pub");
+				filter = input.value.toUpperCase();
+				div = document.getElementById("mypl");
+				a = div.getElementsByTagName("a");
+				for (i = 0; i < a.length; i++) {
+					if (a[i].innerHTML.toUpperCase().indexOf(filter) > -1) {
+						a[i].style.display = "";
+					} else {
+						a[i].style.display = "none";
+					}
+				}
+			}
+		</script>
+	</body>
+</html>
