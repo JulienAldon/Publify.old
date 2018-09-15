@@ -14,10 +14,11 @@ Application made with
 Install
 
 - clone the repository
-- create an environment with virtualenv or anything else with python3.6
-with virtualenv:
-virtualenv venv/
-- activate the environment with fish for example : source venv/bin/activate.fish
-- install the requirements using pip : pip install -r requirements.txt
+- create an environment with virtualenv or anything else with python3.6 with virtualenv:
+````virtualenv venv/````
+- activate the environment with fish for example:
+````source venv/bin/activate.fish````
+- install the requirements using pip : 
+````pip install -r requirements.txt````
 - create app/myconfig.py and put CLIENTKEY and CLIENTSECRET given in spotify dashboard for your application
-- then you can flask run and access to localhost:5000!
+- then you can ````flask run```` and access to localhost:5000!
