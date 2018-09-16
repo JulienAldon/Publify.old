@@ -99,11 +99,18 @@ class Playlist:
 			t += self.show_tracks(tracks)
 		return(t)
 
-	def getArtistInPlaylist(self, user, playlist):
+	def getAlbumsReleaseDate(self, albumsid):
 		"""
-		get les artistes d'une playlist sans doublon
+		albumsid : list of album id's
 		"""
-		results = self._client.user_playlist(user, playlist, fields="tracks,next")
+		albums = self._client.album(albumsid)
+		print(albums)
+
+	def getArtistInPlaylist(self, userid, playlistid):
+		"""
+		get all the artists of a playlist
+		"""
+		results = self._client.user_playlist(userid, playlistid, fields="tracks,next")
 		artist = results['tracks']
 		t = self.show_artist(artist)
 		while artist['next']:

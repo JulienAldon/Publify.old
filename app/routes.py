@@ -19,7 +19,7 @@ spotify = oauth.remote_app(
     'spotify',
 	consumer_key=app.config['CLIENTKEY'],
 	consumer_secret=app.config['CLIENTSECRET'],
-	request_token_params={'scope': 'playlist-read-private playlist-modify-public playlist-read-collaborative'},
+	request_token_params={'scope': 'playlist-read-private playlist-modify-private playlist-modify-public playlist-read-collaborative'},
 	base_url='https://api.spotify.com/v1/',
 	access_token_method='POST',
 	access_token_url='https://accounts.spotify.com/api/token',
@@ -46,9 +46,17 @@ def load_radio():
 		res = request.data
 	a = unquote(str(res.decode('utf-8')))
 	play = a.replace('play=', '')
-	print('/load_radio', play)
+	print(play)
 	if not 'access_token' in fk.session:
 		return redirect(url_for('radio'))
+	usr = fk.g.spotify.get('me')
+	usr_id = usr.data['id']
+	P = msptlib.Playlist(fk.session['access_token'])
+	usr_playlists = P.getUserPlaylist(usr_id)
+	pl_id = util.getPlaylistIdfromName(play, usr_playlists)
+	artists = P.getArtistsInPlaylist(usr_id, pl_id)
+	P.getAlbumsReleaseDate('5yTx83u3qerZF7GRJu7eFk')
+	print("load_radio/", artists)
 	return redirect(url_for('radio'))
 
 @app.route('/')
