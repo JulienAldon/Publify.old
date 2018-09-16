@@ -44,7 +44,7 @@
 		<div class="row">
 			<div class="col-md-6 offset-md-3 col-sm-12">
 				<div class="input-group">
-					<input type="text" onkeyup="searchInList()" class="form-control" placeholder="Choose a playlists..." id="search-pub">
+					<input type="text" onkeyup="searchInList()" class="form-control" placeholder="Choose a playlist..." id="search-pub">
 				</div>
 				<div class="list-group" style="overflow-y: auto; max-height: 40vh;" id="mypl">
 					{% for pub in Playlists %}
@@ -69,10 +69,11 @@
 		<script>
 			$(document).ready(function(){
 				$("#search-song").click(function() {
-					var playlist = $("#dropdown-playlist").text();
+					var playlist = $("#search-pub").attr("placeholder");
 					var data = {
 						'play': playlist,
 					};
+					console.log(playlist)
 					$.ajax({
 					type: "POST",
 					url: "{{ url_for('load_radio') }}",

@@ -50,8 +50,8 @@ def getUserPlaylistLink(usr):
 			user = User(usr, 0)
 			db.session.add(user)
 			db.session.commit()
-	except Exception:
-		return None, None, None
+	except Exception as e:
+		raise Exception('Error when collecting db info!', e)
 	pub_ids = [a.public_playlist_id for a in user.playlist_link]
 	col_ids = [a.collab_playlist_id for a in user.playlist_link]
 	P = msptlib.Playlist(fk.session['access_token'])
@@ -114,15 +114,7 @@ def get_radio():
 		usr_pl = [a[0] for a in usr_playlists[0]]
 		usr_col = [a[0] for a in usr_playlists[1]]
 		Playlists = usr_pl + usr_col
-		print(Playlists)
-		if fk.request.method == 'POST':
-			if fk.request.form['submit'] == 'search':
-				links = user.playlist_link
-				if not links:
-					return zip([], []), username, usr_pl, usr_col
-				for l in links:
-					syncPlaylists(l.collab_playlist_id, l.public_playlist_id, usr.data['id'])
-				return zip(collab, public), username, usr_pl, usr_col
+		print(Playlists)				
 	except Exception as e:
 		if e.args[0] == "name 'token' is not defined":
 			raise e from None

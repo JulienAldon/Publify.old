@@ -57,7 +57,7 @@ def index():
 	return render_template('index.html', **util.get_user_dict())
 
 @app.route('/load_ajax', methods=('GET', 'POST'))
-def load_ajax():
+def load_index():
 	if request.method == "POST":
 		res = request.data
 	a = unquote(str(res.decode('utf-8')))
@@ -111,7 +111,6 @@ def spotify_api_authorized():
 		return redirect(url_for('index'))		
 	response = g.spotify.authorized_response()
 	fk.session['access_token'] = response['access_token']
-	print(fk.session['access_token'])
 	usr = g.spotify.get('me').data['id']
 	u = User.query.filter_by(username=usr).first()
 	if u is None:

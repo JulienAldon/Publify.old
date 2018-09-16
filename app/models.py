@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from app import db
 from flask_login import UserMixin
@@ -23,12 +22,6 @@ class User(db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     level = db.Column(db.Integer)
     playlist_link = db.relationship('PlaylistLink', back_populates='user')
-    #levels: 
-    # -1 disabled, 
-    # 0 can use, 
-    # 1 can view logs, 
-    # 2 can ban/unban, 
-    # 3 can promote demote
     def __init__(self, user, level):
         self.username, self.level = user, level
 
