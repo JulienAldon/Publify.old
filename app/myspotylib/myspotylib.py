@@ -111,25 +111,3 @@ class Playlist:
 			t += self.show_tracks(artist)
 		t = list(set(t))
 		return(t)
-
-if __name__ == "__main__":
-	if len(sys.argv) > 3:
-		username = sys.argv[1]
-		playlist_id_p = sys.argv[2]
-		playlist_id_c = sys.argv[3]
-		client_id = '8849b50e64c547caa0baef44c72c5d34'
-		client_secret = '50ba81420d584406a55c091ce4d6b429'
-		redirect_url = 'http://localhost/'
-		scope = 'playlist-read-private playlist-modify-public playlist-read-collaborative'
-		token = setAuth(client_id, client_secret, redirect_url, username, scope)
-		p = Playlist(token)
-	
-		scope = 'playlist-read-private playlist-modify-public'
-		collab = p.getTracksid(token, playlist_id_c)
-		public = p.getTracksid(token, playlist_id_p)
-		artist = getArtistInPlaylist(playlist_id_p, username)
-		track_ids = p.getTrackDiff(collab, public)
-		p.add_track(token, playlist_id_p, track_ids)
-	else:
-		print("Usage: %s username public_Playlist collaborative_Playlist ..." % (sys.argv[0],))
-		sys.exit()
