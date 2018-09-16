@@ -1,4 +1,4 @@
-# Spotify-Updater
+# Spotify Tools
 
  This app purpose is to synchronize spotify collaborative playlist and public playlist in order to share collaborative playlist without letting everyone modify your playlist.
 
