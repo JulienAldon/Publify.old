@@ -36,11 +36,11 @@ def before_request():
 	""" Last seen function """
 	g.spotify = spotify
 
-@app.route('/radio', methods=('GET', 'POST'))
+@app.route('/radio')
 def radio():
 	return render_template('radio.html', **util.get_radio_dict())
 
-@app.route('/load_radio', methods=('GET', 'POST'))
+@app.route('/load_radio', methods=['POST'])
 def load_radio():
 	if request.method == "POST":
 		res = request.data
@@ -51,12 +51,19 @@ def load_radio():
 		return redirect(url_for('radio'))
 	usr = fk.g.spotify.get('me')
 	usr_id = usr.data['id']
+	print(usr_id)
 	P = msptlib.Playlist(fk.session['access_token'])
 	usr_playlists = P.getUserPlaylist(usr_id)
 	pl_id = util.getPlaylistIdfromName(play, usr_playlists)
-	artists = P.getArtistsInPlaylist(usr_id, pl_id)
-	P.getAlbumsReleaseDate('5yTx83u3qerZF7GRJu7eFk')
-	print("load_radio/", artists)
+	artists = P.getArtistsIdInPlaylist(usr_id, pl_id)
+	albums_id = P.getArtistsAlbums(artists)
+	dates = P.getAlbumsReleaseDate(albums_id)		
+	tracks = P.getLastAlbums(7, dates)
+	if tracks == []:
+		print('No tracks found!')
+		return render_template('radio.html', answer='No new tracks found!')
+	P.createReleasePlaylist(usr_id, play, tracks)
+	print("load_radio/", tracks)
 	return redirect(url_for('radio'))
 
 @app.route('/')

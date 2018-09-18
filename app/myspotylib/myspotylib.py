@@ -1,6 +1,7 @@
 import sys
 import spotipy
 import spotipy.util as util
+import datetime
 
 def setAuth(client_id, client_secret, username, scope, redirect_url='http://localhost/'):
 	"""
@@ -72,7 +73,7 @@ class Playlist:
 		artists = []
 		for item in results['items']:
 			track = item['track']
-			artists.append(track['artists'][0]['name'])
+			artists.append(track['artists'][0]['id'])
 		return(artists)
 
 	def getUserPlaylist(self, user):
@@ -86,12 +87,12 @@ class Playlist:
 				c.append((playlist['name'], playlist['id']))
 		return p, c
 
-	def getTracksid(self, playlist, user):
+	def getTracksid(self, playlist_id, user_id):
 		"""
 		using <token> get the list of tracks id given a <playlist> id
 		`playlist`: Id of a playlist
 		"""
-		results = self._client.user_playlist(user, playlist, fields="tracks,next")
+		results = self._client.user_playlist(user_id, playlist_id, fields="tracks,next")
 		tracks = results['tracks']
 		t = self.show_tracks(tracks)
 		while tracks['next']:
@@ -99,14 +100,85 @@ class Playlist:
 			t += self.show_tracks(tracks)
 		return(t)
 
-	def getAlbumsReleaseDate(self, albumsid):
+	def getArtistsAlbums(self, artists_id):
 		"""
-		albumsid : list of album id's
+		artists_id : list of artists_id
 		"""
-		albums = self._client.album(albumsid)
-		print(albums)
+		albums_id = []
+		albums = []
+		for a in artists_id:
+			albums.append(self._client.artist_albums(a))
+		for album in albums:
+			for al in album['items']:
+				albums_id.append(al['id'])
+		return(albums_id)
 
-	def getArtistInPlaylist(self, userid, playlistid):
+	def getAlbumsReleaseDate(self, albums_id):
+		"""
+		albums_id : list of album id's
+		"""
+		dates = []
+		for a in albums_id:
+			albums = self._client.album(a)
+			dates.append((a, albums['release_date']))
+		result = self.sortAlbumsByDate(dates) 
+		return(result)
+
+	def getLastAlbums(self, rg, albums_date):
+		"""
+		rg: range of the time search (in days)
+		albums_date format: [('%Y-%m-%d', 'album_id'), ...]
+		"""
+		dates = self.generateRangeofDates(rg)
+		res = [(a[0], a[1]) for a in albums_date if a[0] in dates]
+		if res is None:
+			print('No songs found!')
+		l = []
+		for a in res:
+			album = self._client.album_tracks(a[1])
+			l.append(album['items'][0]['id'])
+		return(l)
+
+	def generateRangeofDates(self, rg):
+		"""
+		rg: range of the wanted generation
+		"""
+		date = datetime.datetime.now()
+		a = date.strftime('%Y-%m-%d')
+		dt = datetime.datetime.strptime(a, "%Y-%m-%d")
+		step = datetime.timedelta(days=1)
+		l = []
+		for i in range(0, rg):
+			l.append(dt.strftime('%Y-%m-%d'))
+			dt -= step
+		return(l)
+
+	def createReleasePlaylist(self, user_id, pl_name, tracks):
+		a = self.generateRangeofDates(1)
+		print(a[0])
+		b = '[Releasify] ' + a[0] + ' ' + pl_name
+		print(b)
+		self._client.trace = False
+		playlist = self._client.user_playlist_create(user_id, b, public=True)
+		results = self._client.user_playlist_add_tracks(user_id, playlist['id'], tracks)
+
+	def sortAlbumsByDate(self, albums_date):
+		"""
+		sort the albums_date list by date
+		albums_date format: [('%Y-%m-%d', 'album_id'), ...]
+		"""
+		fixed_dates = []
+		for b in albums_date:
+			if len(b[1]) == 4:
+				fixed_dates.append((b[0], b[1] + '-01-01'))
+			else:
+				fixed_dates.append((b[0], b[1]))
+		a = [(datetime.datetime.strptime(ts[1], "%Y-%m-%d"), ts[0]) for ts in fixed_dates]
+		a.sort(key=lambda tup: tup[0])
+		newa = [(datetime.datetime.strftime(ts[0], "%Y-%m-%d"), ts[1]) for ts in a]
+		return(newa)
+
+	def getArtistsIdInPlaylist(self, userid, playlistid):
 		"""
 		get all the artists of a playlist
 		"""
@@ -115,6 +187,6 @@ class Playlist:
 		t = self.show_artist(artist)
 		while artist['next']:
 			artist = self._client.next(artist)
-			t += self.show_tracks(artist)
+			t += self.show_artist(artist)
 		t = list(set(t))
 		return(t)

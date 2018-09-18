@@ -30,6 +30,12 @@ def getNameFromId(collab_id, public_id, usr_playlists):
 				collab_name.append(a[0])
 	return collab_name, pub_name
 
+def getPlaylistIdfromName(playlist, usr_playlists):
+	for a in usr_playlists[0]:
+		if (a[0] == playlist):	
+			return(a[1])
+	return None
+
 def getIdfromName(collab, public, usr_playlists):
 	pub_id = []
 	col_id = []
@@ -114,7 +120,6 @@ def get_radio():
 		usr_pl = [a[0] for a in usr_playlists[0]]
 		usr_col = [a[0] for a in usr_playlists[1]]
 		Playlists = usr_pl + usr_col
-		print(Playlists)				
 	except Exception as e:
 		if e.args[0] == "name 'token' is not defined":
 			raise e from None
