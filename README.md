@@ -7,7 +7,6 @@ Python dependences
 - Oauth2
 - SqlAlchemy-Flask
 
-
 Application made with
 - Python3.6
 - HTML, CSS
