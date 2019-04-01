@@ -24,3 +24,4 @@ Install
 - create app/myconfig.py and put CLIENTKEY and CLIENTSECRET given in spotify dashboard for your application
 - then you can ````flask run```` and access to localhost:5000!
 test
+test
