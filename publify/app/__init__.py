@@ -10,7 +10,8 @@ CORS(app,
     origins=["http://publify.aldon.info", "https://publify.aldon.info"],
     resources=r"/*",
     supports_credentials=True,
-    CORS_ALWAYS_SEND=True
+    CORS_ALWAYS_SEND=True,
+    CORS_ALLOW_HEADERS="Authorization,Origin,Content-Type,Accept,X-Requested-With"
 )
 app.config['CORS_HEADERS'] = 'Content-Type'
 db = SQLAlchemy(app)
