@@ -14,14 +14,15 @@ import { store, mutations } from "../store";
 
 export default {
     computed: {
-    },
-    mounted() {
-    },
-    methods: {
         logged() {
             console.log(mutations.checkUserLogged());
             return mutations.checkUserLogged()
         },
+    },
+    mounted() {
+    },
+    methods: {
+        
         logoutUser() {
             sessionStorage.setItem('status','loggedOut')
             fetch('http://auth.publify.aldon.info/api/auth/logout')
