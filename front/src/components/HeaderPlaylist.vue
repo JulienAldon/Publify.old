@@ -15,7 +15,10 @@ import { store, mutations } from "../store";
 export default {
     computed: {
         logged: function () {
-            return mutations.checkUserLogged()
+            if (sessionStorage.getItem('status') != null) {
+                return false;
+            }
+            return true;
         }
     },
     mounted() {
