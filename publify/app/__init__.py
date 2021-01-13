@@ -6,16 +6,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
-cors = CORS(app, 
-    origins="http://publify.aldon.info", 
-    allow_headers=[
-        "Content-Type", "Authorization", "Access-Control-Allow-Credentials"
-    ],
+CORS(app,
+    origins=["https://publify.aldon.info", "http://publify.aldon.info"],
     supports_credentials=True
 )
-app.config['CORS_HEADERS'] = 'Content-Type'
 
 db = SQLAlchemy(app)
-
 
 from app import api, models
