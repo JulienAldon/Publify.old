@@ -9,7 +9,6 @@ from flask_sqlalchemy import SQLAlchemy
 import app.spotifyWrapper as abc
 from authlib.integrations.flask_client import OAuth
 # from flask_oauthlib.client import OAuth
-from flask_cors import cross_origin
 
 import json
 import uuid
@@ -71,7 +70,6 @@ class Radio(Resource):
 		return {}
 
 class Playlists(Resource):
-	@cross_origin()
 	def get(self):
 		try:
 			usr = spotify.get('me').json()
@@ -92,7 +90,6 @@ class Playlists(Resource):
 		}
 		return fk.jsonify(result)
 
-	@cross_origin()
 	def post(self):
 		try:
 			usr = spotify.get('me').json()
@@ -124,7 +121,6 @@ class Playlists(Resource):
 			})
 
 class PlaylistLinks(Resource):
-	@cross_origin()
 	def get(self, id):
 		try:
 			usr = spotify.get('me').json()
@@ -135,7 +131,6 @@ class PlaylistLinks(Resource):
 			return createError('Not Found', 404)
 		return fk.jsonify({'collaborative': p.collab_playlist_id, 'public': p.public_playlist_id})	
 	
-	@cross_origin()
 	def put(self, id):
 		if not 'access_token' in fk.session:
 			return createError('Unauthorized', 401, special='Authentification required')
@@ -148,7 +143,6 @@ class PlaylistLinks(Resource):
 		db.session.commit()
 		return fk.jsonify({'success': 'Playlist Link Updated'})
 
-	@cross_origin()
 	def delete(self, id):
 		if not 'access_token' in fk.session:
 			return createError('Unauthorized', 401, special='Authentification required')
@@ -164,7 +158,6 @@ class Synchronizer(Resource):
 	def get(self, id):
 		pass
 	
-	@cross_origin()
 	def put(self, id):
 		response = request.get_json()
 		if response is None:
@@ -192,7 +185,6 @@ class Synchronizer(Resource):
 		return fk.jsonify({'success': 'Synchronization requested'})
 
 class Links(Resource):
-	@cross_origin()
 	def get(self):
 		try:
 			usr = spotify.get('me').json()
