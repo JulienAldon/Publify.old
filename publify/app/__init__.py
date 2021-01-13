@@ -7,10 +7,10 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 cors = CORS(app, 
-    supports_credentials=True, 
-    max_age=86400, 
-    origins=['auth.publify.aldon.info', 'publify.aldon.info'], 
-    resources={r"/api/*": {"origins": "http://auth.publify.aldon.info"}})
+    # supports_credentials=True, 
+    max_age=86400,
+    send_wildcard=True
+)
 db = SQLAlchemy(app)
 
 
