@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>Publify - Controlled Contributive Playlists</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=DM+Sans:400,700&display=swap&subset=latin-ext" rel="stylesheet">
+		<script>
+			function init() {
+				let dialog = document.getElementById("new");
+				let button = document.getElementById("new-button");
+				let closeButton = document.getElementById("new-close-button");
+
+				button.addEventListener("click", e => dialog.show());
+				closeButton.addEventListener("click", e => dialog.close());
+			}
+
+			window.addEventListener("load", init)
+		</script>
+		<style type="text/css">
+			body {
+				background: top/cover fixed url("static/img/background.jpg");
+				margin: 0;
+				font-family: 'DM Sans', sans-serif;
+				width: 100vw;
+				height: 100vh;
+
+				display: flex;
+				flex-flow: column;
+			}
+
+			a {
+				color: white;
+				transition: all 0.5s ease;
+			}
+
+			a:hover {
+				color: #1ED760;
+			}
+
+			body > header a:focus {
+				color: white;
+				text-shadow: 0 0 0.5rem rgba(255, 255, 255, 1);
+			}
+
+			body > header, body > header aside {
+				display: flex;
+				flex-flow: row;
+				align-items: stretch;
+			}
+
+			body > header aside {
+				justify-content: flex-end;
+				flex-grow: 1;
+			}
+
+			body > header {
+				background: linear-gradient(#00000060 0%, #00000000 100%);
+				color: white;
+			}
+
+			body > header h1 {
+				font-size: 2rem;
+				padding: 0;
+				margin: 0;
+				padding: 0.5rem 0.75rem;
+			}
+
+			body > header a {
+				text-decoration: none;
+				align-self: stretch;
+				padding: 1.25rem 0.75rem;
+				font-size: 1rem;
+				vertical-align: center;
+			}
+
+			body > header a:hover {
+				color: white;
+				text-shadow: 0 0 0.5rem rgba(255, 255, 255, 1);
+				transition: all 0.2s ease;
+			}
+
+			body > header h1 a:hover {
+				background: none;
+			}
+
+			body > header h1 a {
+				font-size: 2rem;
+				padding: 0;
+			}
+
+			dialog {
+				background: rgba(0, 0, 0, 0.65);
+				color: white;
+				border: none;
+				border-radius: 3px;
+				box-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.5);
+				padding: 0;
+				width: 100ch;
+				max-width: 100vw;
+				transition: all 0.5s ease;
+			}
+
+			@keyframes dialogOpen {
+				  0% { opacity: 0; }
+				100% { opacity: 1; }
+			}
+
+			dialog[open] {
+				animation: dialogOpen 0.2s ease running;
+			}
+
+			dialog::backdrop {
+				background: rgba(0, 0, 0, 0.7);
+				animation: dialogOpen 0.2s ease running;
+			}
+
+			dialog h1 {
+				text-align: center;
+			}
+
+			dialog form {
+				display: flex;
+				flex-flow: row;
+				padding: 0;
+				width: 100ch;
+				max-width: 100vw;
+				max-height: 50vh;
+			}
+
+			dialog form article {
+				display: flex;
+				flex-basis: 50%;
+				flex-grow: 0;
+				flex-shrink: 0;
+				align-items: stretch;
+				flex-flow: column;
+				overflow: hidden;
+			}
+
+			dialog form h1 {
+				font-size: 1.2rem;
+				text-align: center;
+				padding: 0.1rem;
+				margin: 0;
+			}
+
+			dialog form ul {
+				overflow: auto;
+				padding: 0;
+			}
+
+			dialog form footer {
+				grid-area: 3;
+			}
+
+			dialog form li {
+				list-style: none;
+				display: flex;
+				flex-flow: column;
+			}
+
+			dialog form li:nth-child(2n) {
+				background: rgba(255, 255, 255, 0.025);
+			}
+
+			dialog form label {
+				white-space: nowrap;
+				overflow: hidden;
+				text-wrap: ellipsis;
+				padding: 0.5rem;
+				transition: all 0.2s ease;
+			}
+
+			dialog form li input {
+				display: none;
+			}
+
+			dialog form li input:checked + label {
+				background: rgba(255, 255, 255, 0.7);
+			}
+
+			main {
+				background: rgba(0, 0, 0, 0.5);
+				display: flex;
+				flex-flow: column;
+				width: 80ch;
+				border-radius: 3px;
+				box-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.5);
+				align-self: center;
+				max-width: 100%;
+				max-height: calc(100% - 8rem);
+				flex: 1;
+			}
+
+			.actions * {
+				background: none;
+				border: none;
+				color: rgba(255, 255, 255, 0.5);
+				padding: 0.2rem;
+				margin: 0.3rem;
+				height: 2rem;
+				width: 2rem;
+				vertical-align: middle;
+			}
+
+			.actions i.material-icons {
+				font-size: 2rem;
+				transition: all 0.2s ease;
+			}
+
+			.actions:not(.item-actions) i.material-icons {
+				position: relative;
+				top: -0.7rem;
+				left: -0.7rem;
+			}
+
+			.actions a:hover, .actions a:hover i.material-icons, .actions button:hover, .actions button:hover i.material-icons {
+				color: white;
+				text-shadow: 0 0 0.5rem rgba(255, 255, 255, 0.7);
+			}
+
+			.actions a:focus, .actions a:focus i.material-icons, .actions button:focus, main .actions button:hover i.material-icons {
+				color: white;
+				text-shadow: 0 0 1rem rgba(255, 255, 255, 0.3);
+			}
+
+			.actions a:hover, .actions a:hover i.material-icons.danger, .actions button:hover, .actions button:hover i.material-icons.danger, :hover.danger {
+				color: rgba(255, 80, 80, 0.7);
+				text-shadow: 0 0 0.5rem rgba(255, 80, 80, 0.7);
+		}
+
+			@keyframes pending {
+			    0% { color: rgba(51, 217, 255, 0.7); text-shadow: 0 0 0.0rem rgba(51, 217, 255, 0.3); }
+			  100% { color: rgba(51, 217, 255, 1.0); text-shadow: 0 0 0.4rem rgba(51, 217, 255, 1.0); }
+			}
+
+			.actions.item-actions i.material-icons.pending {
+				animation: pending 0.2s ease 0s infinite alternate both running;
+			}
+
+			@keyframes success {
+			    0% { color: rgba(127, 255, 51, 0.7); text-shadow: 0 0 0.0rem rgba(127, 255, 51, 0.3); }
+			  100% { color: rgba(127, 255, 51, 1.0); text-shadow: 0 0 0.4rem rgba(127, 255, 51, 1.0); }
+			}
+
+			.actions.item-actions i.material-icons.success {
+				animation: success 1s ease 0s infinite alternate both running;
+			}
+
+			@keyframes warning {
+			    0% { color: rgba(255, 127, 51, 0.7); text-shadow: 0 0 0.0rem rgba(255, 127, 51, 0.3); }
+			  100% { color: rgba(255, 127, 51, 1.0); text-shadow: 0 0 0.4rem rgba(255, 127, 51, 0.7); }
+			}
+
+			.actions.item-actions i.material-icons.warning {
+				animation: warning 0.2s ease 0s infinite alternate both running;
+			}
+
+			.actions {
+				display: flex;
+				flex-flow: row;
+				justify-content: center;
+			}
+
+			::selection {
+				text-shadow: 0 0 0.5rem #80BFFF;
+				background: transparent;
+				color: #80BFFF;
+			}
+
+			main .item-actions.actions * {
+				margin: 0;
+			}
+
+			main .item-actions.actions i.material-icons {
+				font-size: 1.2rem;
+				padding: 0;
+			}
+
+			main footer, dialog footer {
+				align-self: stretch;
+				height: 3.5rem;
+				flex-shrink: 0;
+			}
+
+			main table tbody {
+				overflow-y: auto;
+			}
+
+			::-webkit-scrollbar {
+				width: 1rem;
+			  height: 8px;
+			  background: transparent;
+				display: initial;
+				overflow: visible;
+			}
+
+			*::-webkit-scrollbar-thumb {
+				background: rgba(255, 255, 255, 0);
+				background-clip: content-box;
+				border: 0.25rem solid transparent;
+				border-radius: 0.5rem;
+				transition: all 5s ease;
+			}
+
+			*:hover::-webkit-scrollbar-thumb {
+				background: rgba(255, 255, 255, 0.2);
+				background-clip: content-box;
+			}
+
+			main table {
+				align-self: stretch;
+				border: none;
+				border-collapse: collapse;
+				width: 100%;
+				flex-grow: 1;
+
+				display: flex;
+				justify-content: flex-start;
+				align-items: stretch;
+				flex-flow: column;
+			}
+
+			main table tr {
+				display: flex;
+				align-items: stretch;
+			}
+
+			main table th, main table td {
+				padding: 0.75rem;
+				color: white;
+				text-align: center;
+				flex-basis: 50%;
+				flex-shrink: 1;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+			main table th:last-child, main table td.actions {
+				padding: 0.50rem;
+				padding-bottom: 0;
+				flex-basis: 6.6rem;
+				flex-shrink: 0;
+				flex-grow: 0;
+
+			}
+
+			main table tr:nth-child(2n) {
+				background: rgba(255, 255, 255, 0.025);
+			}
+
+			main table th {
+				background: rgba(0, 0, 0, 0.1);
+			}
+
+			main table th:last-child, main table td.item-actions.actions {
+				width: 6rem;
+			}
+
+			button:active, a:active, button:hover, a:hover, button:focus, a:focus {
+				outline: none;
+			}
+
+			@media (max-width: 80ch) {
+				main {
+					border-radius: 0;
+				}
+			}
+
+			@media (max-width: 100ch) {
+				dialog {
+					border-radius: 0;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1><a href="https://spotils.example.com/">Spotils</a> // <a href="/">Publify</a></h1>
+			<a href="/">Home</a>
+			<a href="/about">About</a>
+			<aside>
+				<a href="/account">Test User</ha>
+				<a href="/auth/logout">Log Out</a>
+			</aside>
+		</header>
+		<main>
+			<table>
+				<thead>
+					<tr>
+						<th>Contributive Playlist</th>
+						<th>Public Playlist</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Lorem Ipsum</td>
+						<td>Lorem Ipsum dolor sit amet e conjecto alea parla con caca de la ropa</td>
+						<td class="item-actions actions">
+							<button><i class="material-icons">arrow_back</i></button>
+							<button><i class="material-icons">arrow_forward</i></button>
+							<button><i class="danger material-icons">delete</i></button>
+						</td>
+					</tr>
+					<tr>
+						<td>Lorem Ipsum</td>
+						<td>Lorem Ipsum</td>
+						<td class="item-actions actions">
+							<button><i class="material-icons">arrow_back</i></button>
+							<button><i class="material-icons">arrow_forward</i></button>
+							<button><i class="danger material-icons">delete</i></button>
+						</td>
+					</tr>
+					<tr>
+						<td>Lorem Ipsum</td>
+						<td>Lorem Ipsum</td>
+						<td class="item-actions actions">
+							<button><i class="material-icons">arrow_back</i></button>
+							<button><i class="warning material-icons">arrow_forward</i></button>
+							<button><i class="danger material-icons">delete</i></button>
+						</td>
+					</tr>
+					<tr>
+						<td>Lorem Ipsum</td>
+						<td>Lorem Ipsum</td>
+						<td class="item-actions actions">
+							<button><i class="material-icons">arrow_back</i></button>
+							<button><i class="success material-icons">arrow_forward</i></button>
+							<button><i class="danger material-icons">delete</i></button>
+						</td>
+					</tr>
+					<tr>
+						<td>Lorem Ipsum</td>
+						<td>Lorem Ipsum</td>
+						<td class="item-actions actions">
+							<button><i class="material-icons">arrow_back</i></button>
+							<button><i class="pending material-icons">arrow_forward</i></button>
+							<button><i class="danger material-icons">delete</i></button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<footer class="actions">
+			<button id="new-button"><i class="material-icons">add_circle_outline</i></button>
+			</footer>
+		</main>
+		<dialog id="new">
+			<h1>Create New Association</h1>
+			<form>
+				<article>
+					<h1>Collaborative Playlist</h1>
+					<ul>
+						<li><input name="lorem-ipsum" value="01" id="lorem-ipsum01" type="radio"/><label for="lorem-ipsum01">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="02" id="lorem-ipsum02" type="radio"/><label for="lorem-ipsum02">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="03" id="lorem-ipsum03" type="radio"/><label for="lorem-ipsum03">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="04" id="lorem-ipsum04" type="radio"/><label for="lorem-ipsum04">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="05" id="lorem-ipsum05" type="radio"/><label for="lorem-ipsum05">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="06" id="lorem-ipsum06" type="radio"/><label for="lorem-ipsum06">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="07" id="lorem-ipsum07" type="radio"/><label for="lorem-ipsum07">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="08" id="lorem-ipsum08" type="radio"/><label for="lorem-ipsum08">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="09" id="lorem-ipsum09" type="radio"/><label for="lorem-ipsum09">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="0A" id="lorem-ipsum0A" type="radio"/><label for="lorem-ipsum0A">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="0B" id="lorem-ipsum0B" type="radio"/><label for="lorem-ipsum0B">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="0C" id="lorem-ipsum0C" type="radio"/><label for="lorem-ipsum0C">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="0D" id="lorem-ipsum0D" type="radio"/><label for="lorem-ipsum0D">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="0E" id="lorem-ipsum0E" type="radio"/><label for="lorem-ipsum0E">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="0F" id="lorem-ipsum0F" type="radio"/><label for="lorem-ipsum0F">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="11" id="lorem-ipsum11" type="radio"/><label for="lorem-ipsum11">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="12" id="lorem-ipsum12" type="radio"/><label for="lorem-ipsum12">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="13" id="lorem-ipsum13" type="radio"/><label for="lorem-ipsum13">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="14" id="lorem-ipsum14" type="radio"/><label for="lorem-ipsum14">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="15" id="lorem-ipsum15" type="radio"/><label for="lorem-ipsum15">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="16" id="lorem-ipsum16" type="radio"/><label for="lorem-ipsum16">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="17" id="lorem-ipsum17" type="radio"/><label for="lorem-ipsum17">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="18" id="lorem-ipsum18" type="radio"/><label for="lorem-ipsum18">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="19" id="lorem-ipsum19" type="radio"/><label for="lorem-ipsum19">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="1A" id="lorem-ipsum1A" type="radio"/><label for="lorem-ipsum1A">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="1B" id="lorem-ipsum1B" type="radio"/><label for="lorem-ipsum1B">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="1C" id="lorem-ipsum1C" type="radio"/><label for="lorem-ipsum1C">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="1D" id="lorem-ipsum1D" type="radio"/><label for="lorem-ipsum1D">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="1E" id="lorem-ipsum1E" type="radio"/><label for="lorem-ipsum1E">Lorem Ipsum</label></li>
+						<li><input name="lorem-ipsum" value="1F" id="lorem-ipsum1F" type="radio"/><label for="lorem-ipsum1F">Lorem Ipsum</label></li>
+					</ul>
+				</article>
+				<article>
+					<h1>Public Playlist</h1>
+					<ul>
+						<li><input name="daraen-ipsum" value="01" id="daraen-ipsum01" type="radio"/><label for="daraen-ipsum01">Lorem Ipsum dolor sit amet j'ai perdu au jeu quelle nouvelle incroyable je m'enjaille vraiment</label></li>
+						<li><input name="daraen-ipsum" value="02" id="daraen-ipsum02" type="radio"/><label for="daraen-ipsum02">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="03" id="daraen-ipsum03" type="radio"/><label for="daraen-ipsum03">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="04" id="daraen-ipsum04" type="radio"/><label for="daraen-ipsum04">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="05" id="daraen-ipsum05" type="radio"/><label for="daraen-ipsum05">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="06" id="daraen-ipsum06" type="radio"/><label for="daraen-ipsum06">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="07" id="daraen-ipsum07" type="radio"/><label for="daraen-ipsum07">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="08" id="daraen-ipsum08" type="radio"/><label for="daraen-ipsum08">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="09" id="daraen-ipsum09" type="radio"/><label for="daraen-ipsum09">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="0A" id="daraen-ipsum0A" type="radio"/><label for="daraen-ipsum0A">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="0B" id="daraen-ipsum0B" type="radio"/><label for="daraen-ipsum0B">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="0C" id="daraen-ipsum0C" type="radio"/><label for="daraen-ipsum0C">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="0D" id="daraen-ipsum0D" type="radio"/><label for="daraen-ipsum0D">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="0E" id="daraen-ipsum0E" type="radio"/><label for="daraen-ipsum0E">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="0F" id="daraen-ipsum0F" type="radio"/><label for="daraen-ipsum0F">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="11" id="daraen-ipsum11" type="radio"/><label for="daraen-ipsum11">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="12" id="daraen-ipsum12" type="radio"/><label for="daraen-ipsum12">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="13" id="daraen-ipsum13" type="radio"/><label for="daraen-ipsum13">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="14" id="daraen-ipsum14" type="radio"/><label for="daraen-ipsum14">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="15" id="daraen-ipsum15" type="radio"/><label for="daraen-ipsum15">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="16" id="daraen-ipsum16" type="radio"/><label for="daraen-ipsum16">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="17" id="daraen-ipsum17" type="radio"/><label for="daraen-ipsum17">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="18" id="daraen-ipsum18" type="radio"/><label for="daraen-ipsum18">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="19" id="daraen-ipsum19" type="radio"/><label for="daraen-ipsum19">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="1A" id="daraen-ipsum1A" type="radio"/><label for="daraen-ipsum1A">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="1B" id="daraen-ipsum1B" type="radio"/><label for="daraen-ipsum1B">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="1C" id="daraen-ipsum1C" type="radio"/><label for="daraen-ipsum1C">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="1D" id="daraen-ipsum1D" type="radio"/><label for="daraen-ipsum1D">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="1E" id="daraen-ipsum1E" type="radio"/><label for="daraen-ipsum1E">Lorem Ipsum</label></li>
+						<li><input name="daraen-ipsum" value="1F" id="daraen-ipsum1F" type="radio"/><label for="daraen-ipsum1F">Lorem Ipsum</label></li>
+					</ul>
+				</article>
+			</form>
+			<footer class="actions">
+				<button id="new-confirm-button"><i class="material-icons">add_circle_outline</i></button>
+				<button id="new-close-button"><i class="material-icons">cancel</i></button>
+			</footer>
+		</dialog>
+	</body>
+</html>
