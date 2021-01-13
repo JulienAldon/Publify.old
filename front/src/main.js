@@ -8,24 +8,18 @@ import VModal from 'vue-js-modal';
 
 Vue.use(VModal, { dialog: true });
 
-const NotFound = { template: '<p>Page not found</p>' }
 
-const routes = {
-  '/': { template: '<p>home page</p>'},
-  '/app': App
-}
+const routes = [
+  {path: '/', component: { template: '<p>home page</p>'}},
+  {path: '/app', component: App}
+]
+
+const router = new VueRouter({
+  routes
+})
 
 var vm = new Vue({
-  el: '#app',
-  data: {
-    currentRoute: window.location.pathname
-  },
-  computed: {
-    ViewComponent () {
-      return routes[this.currentRoute] || NotFound
-    }
-  },
-  render (h) { return h(this.ViewComponent)}
-})
+  router
+}).$mount('#app')
 
 global.vm = vm;
