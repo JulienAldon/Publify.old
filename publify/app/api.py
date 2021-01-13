@@ -7,6 +7,7 @@ from flask_restful.reqparse import RequestParser
 from app.models import User, PlaylistLink
 from flask_sqlalchemy import SQLAlchemy
 import app.spotifyWrapper as abc
+from flask_cors import CORS, cross_origin
 from authlib.integrations.flask_client import OAuth
 # from flask_oauthlib.client import OAuth
 import json
@@ -58,7 +59,6 @@ def createError(msg, code, special=None):
 	return fk.jsonify({'error': msg , 'status': code})
 
 # resources
-
 class Radio(Resource):
 	def get(self):
 		if fetch_spotify_token():
@@ -68,6 +68,7 @@ class Radio(Resource):
 	def post(self):
 		return {}
 
+@cross_origin(origin='*')
 class Playlists(Resource):
 	def get(self):
 		try:
@@ -119,6 +120,7 @@ class Playlists(Resource):
 				}
 			})
 
+@cross_origin(origin='*')
 class PlaylistLinks(Resource):
 	def get(self, id):
 		try:
@@ -229,7 +231,7 @@ def spotify_api_login():
 		del fk.session['access_token']
 		# return fk.redirect('https://front.localhost/')
 		# return createError('Forbiden', 403)
-	callback = 'https://auth.publify.aldon.info/api/auth/authorized'
+	callback = 'http://auth.publify.aldon.info/api/auth/authorized'
 	return g.spotify.authorize_redirect(callback)
 
 @app.route('/api/auth/logout')
