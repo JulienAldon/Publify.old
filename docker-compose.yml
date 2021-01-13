@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  ### NGINX ####################################################################
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx-config/Dockerfile
+    environment:
+      ROOT_FQDN: localhost
+    ports:
+      - 80:80
+    depends_on:
+      - publify
+  ### Backend Services #########################################################
+  publify:
+    build: publify
+    expose:
+      - 8000
+
+volumes:
+  auth-static:
