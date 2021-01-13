@@ -9,7 +9,8 @@ app.config.from_pyfile('config.py')
 CORS(app,
     origins=["http://publify.aldon.info", "https://publify.aldon.info"],
     resources=r"/*",
-    supports_credentials=True
+    supports_credentials=True,
+    CORS_ALWAYS_SEND=True
 )
 app.config['CORS_HEADERS'] = 'Content-Type'
 db = SQLAlchemy(app)
