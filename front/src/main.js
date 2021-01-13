@@ -16,12 +16,16 @@ const routes = {
 }
 
 var vm = new Vue({
+  el: '#app',
+  data: {
+    currentRoute: window.location.pathname
+  },
   computed: {
     ViewComponent () {
       return routes[this.currentRoute] || NotFound
     }
   },
-  render: h => h(App),
-}).$mount('#app')
+  render (h) { return h(this.ViewComponent)}
+})
 
 global.vm = vm;
