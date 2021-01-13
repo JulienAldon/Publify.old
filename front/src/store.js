@@ -33,10 +33,10 @@ export const mutations = {
             "collaborative": selectCollab,
             "public": selectPublic
         };
-        console.log(opts);
+        console.log(JSON.stringify(opts));
         fetch('http://auth.publify.aldon.info/api/v1/playlist', {
             headers: {
-                // "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
             credentials: "include",
             method: 'post',
