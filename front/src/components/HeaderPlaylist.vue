@@ -5,7 +5,7 @@
         <a href="/about">About</a>
         <aside>
             <a v-if="logged()" href="http://auth.publify.aldon.info/api/auth/login" v-on:click="logUser">Log in with Spotify</a>
-            <a v-else href="http://auth.publify.aldon.info/api/auth/logout" v-on:click="logoutUser">Log Out</a>
+            <a v-else v-on:click="logoutUser">Log Out</a>
         </aside>
     </header>
 </template>
@@ -22,7 +22,14 @@ export default {
             return mutations.checkUserLogged()
         },
         logoutUser() {
-            sessionStorage.setItem('status','loggedOut') 
+            sessionStorage.setItem('status','loggedOut')
+            fetch('http://auth.publify.aldon.info/api/auth/logout')
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function(json) {
+                console.log('logged out',JSON.stringify(json));
+            })
         },
         logUser() {
             sessionStorage.setItem('status','loggedIn') 
