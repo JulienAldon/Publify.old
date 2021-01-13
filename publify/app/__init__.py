@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
-cors = CORS(app, CORS_ORIGINS=['auth.publify.aldon.info'])
+cors = CORS(app, CORS_ORIGINS=['publify.aldon.info'])
 db = SQLAlchemy(app)
 
 
