@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: nginx-config/Dockerfile
     environment:
-      ROOT_FQDN: localhost
+      ROOT_FQDN: aldon.info
     ports:
       - 80:80
     depends_on:

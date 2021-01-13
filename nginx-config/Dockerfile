@@ -10,7 +10,7 @@ RUN     npm run build
 # TODO: Django's collectstatic
 
 FROM nginx:latest
-COPY --from=build /app/publify_front /srv/www/localhost/publify_front
+COPY --from=build /app/publify_front /srv/www/aldon.info/publify_front
 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx-config /etc/nginx
