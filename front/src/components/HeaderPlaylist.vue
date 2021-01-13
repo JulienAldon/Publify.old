@@ -15,7 +15,6 @@ import { store, mutations } from "../store";
 export default {
     computed: {
         logged() {
-            console.log(mutations.checkUserLogged());
             return mutations.checkUserLogged()
         },
     },
