@@ -4,7 +4,7 @@
         <a href="/">Home</a>
         <a href="/about">About</a>
         <aside>
-            <a v-if="!logged()" href="http://auth.publify.aldon.info/api/auth/login" v-on:click="logUser">Log in with Spotify</a>
+            <a v-if="!logged" href="http://auth.publify.aldon.info/api/auth/login" v-on:click="logUser">Log in with Spotify</a>
             <a v-else v-on:click="logoutUser">Log Out</a>
         </aside>
     </header>
