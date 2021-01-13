@@ -35,7 +35,7 @@ export const mutations = {
         };
         fetch('http://auth.publify.aldon.info/api/v1/playlist', {
             headers: {
-                "Content-Type": "application/json",
+                // "Content-Type": "application/json",
             },
             credentials: "include",
             method: 'post',
@@ -99,7 +99,7 @@ export const mutations = {
         };
         fetch('http://auth.publify.aldon.info/api/v1/playlist/'+id+'/sync', {
             headers: {
-                "Content-Type": "application/json"
+                // "Content-Type": "application/json"
             },
             credentials: "include",
             method: 'put',
