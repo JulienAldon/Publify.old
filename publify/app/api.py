@@ -18,7 +18,6 @@ from flask_cors import CORS
 # app.config.from_object(Config)
 oauth = OAuth(app)
 CORS(app,
-    origins=["https://publify.aldon.info", "http://publify.aldon.info"],
     supports_credentials=True
 )
 def fetch_spotify_token():
