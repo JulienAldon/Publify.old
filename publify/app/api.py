@@ -12,10 +12,15 @@ from authlib.integrations.flask_client import OAuth
 import json
 import uuid
 import functools
+from flask_cors import CORS
+
 #initialisation
 # app.config.from_object(Config)
 oauth = OAuth(app)
-
+CORS(app,
+    origins=["https://publify.aldon.info", "http://publify.aldon.info"],
+    supports_credentials=True
+)
 def fetch_spotify_token():
 	# if not 'access_token' in fk.session:
 	# 	return "no token
@@ -150,9 +155,7 @@ class PlaylistLinks(Resource):
 		db.session.delete(p)
 		db.session.commit()
 		return fk.jsonify({'success': 'Playlist Link Deleted'})
-	
-	def options(self, id):
-		pass
+
 
 class Synchronizer(Resource):
 	def get(self, id):
@@ -243,7 +246,6 @@ def spotify_api_logout():
 def spotify_api_authorized():
 	token = oauth.spotify.authorize_access_token()
 	fk.session['access_token'] = token
-	print(token)
 	usr = spotify.get('me').json()
 	u = User.query.filter_by(username=usr['id']).first()
 	if u is None:
