@@ -6,7 +6,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 db = SQLAlchemy(app)
 
 
