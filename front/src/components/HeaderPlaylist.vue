@@ -14,11 +14,13 @@ import { store, mutations } from "../store";
 
 export default {
     computed: {
-        logged: function () {
-            if (sessionStorage.getItem('status') != null) {
-                return false;
+        logged() {
+                return () => {
+                if (sessionStorage.getItem('status') != null) {
+                    return false;
+                }
+                return true;
             }
-            return true;
         }
     },
     mounted() {
