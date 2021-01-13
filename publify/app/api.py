@@ -12,14 +12,11 @@ from authlib.integrations.flask_client import OAuth
 import json
 import uuid
 import functools
-from flask_cors import CORS
 
 #initialisation
 # app.config.from_object(Config)
 oauth = OAuth(app)
-CORS(app,
-    supports_credentials=True
-)
+
 def fetch_spotify_token():
 	# if not 'access_token' in fk.session:
 	# 	return "no token

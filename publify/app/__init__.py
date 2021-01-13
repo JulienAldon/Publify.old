@@ -2,10 +2,14 @@
 from flask import Flask
 # from config import Config
 # from app import models
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
-
+CORS(app,
+    origins=["https://publify.aldon.info", "http://publify.aldon.info"],
+    supports_credentials=True
+)
 
 db = SQLAlchemy(app)
 
