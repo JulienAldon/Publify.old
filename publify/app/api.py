@@ -57,14 +57,14 @@ def isAuthorized(func):
 def createError(msg, code, special=None):
 	if special:
 		return fk.jsonify({'error': msg , 'status': code, 'special': special})
-	return fk.jsonify({'error': msg , 'status': code})
+	return fk.Response(fk.jsonify({'error': msg , 'status': code}))
 
 # resources
 class Radio(Resource):
 	def get(self):
 		if fetch_spotify_token():
 			return fk.jsonify({'data': 'You are connected'})
-		return {'bite': 'couille'}
+		return {'data': 'you are not connected'}
 
 	def post(self):
 		return {}
