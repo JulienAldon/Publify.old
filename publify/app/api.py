@@ -97,7 +97,7 @@ class Playlists(Resource):
 			return createError('Unauthorized', 401, special='Spotify authentification required, please log in with spotify')
 		response = request.get_json()
 		if response is None:
-			return createError('Bad Request', 400, special="No playlist provided please change the request's body")
+			return createError('Bad Request', 400, special="aNo playlist provided please change the request's body")
 		if not response['public'] or not response['collaborative']:
 			return createError('Bad Request', 400, special="No playlist provided please change the request's body")
 		name = usr['display_name']
