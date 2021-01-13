@@ -46,8 +46,8 @@ def isAuthorized(func):
 			usr = spotify.get('me').json()
 			usr['display_name']
 		except:
-			return redirect('https://front.localhost')
-		return redirect('https://front.localhost/app')
+			return redirect('https://publify.aldon.info')
+		return redirect('https://publify.aldon.info/app')
 	return fx
 
 # utility
@@ -229,14 +229,14 @@ def spotify_api_login():
 		del fk.session['access_token']
 		# return fk.redirect('https://front.localhost/')
 		# return createError('Forbiden', 403)
-	callback = 'https://refacto.localhost/api/auth/authorized'
+	callback = 'https://auth.publify.aldon.info/api/auth/authorized'
 	return g.spotify.authorize_redirect(callback)
 
 @app.route('/api/auth/logout')
 def spotify_api_logout():
 	if 'access_token' in fk.session:
 		del fk.session['access_token']
-		return fk.redirect('https://front.localhost/')
+		return fk.redirect('https://publify.aldon.info/')
 		# return fk.jsonify({'success': 'User logged out sucessfully'})
 	return createError('Unauthorized', 401)
 
@@ -252,7 +252,7 @@ def spotify_api_authorized():
 		db.session.add(u)
 		db.session.commit()
 	# result = {'data': 'User created sucessfully'}
-	return fk.redirect('https://front.localhost/app')
+	return fk.redirect('https://publify.aldon.info/app')
 
 if __name__ == '__main__':
 	db.create_all()

@@ -1,11 +1,11 @@
 <template>
     <header>
-        <h1><a href="https://front.localhost/">Spotils</a> // <a href="/">Publify</a></h1>
+        <h1><a href="https://publify.aldon.info/">Spotils</a> // <a href="/">Publify</a></h1>
         <a href="/">Home</a>
         <a href="/about">About</a>
         <aside>
-            <a  href="http://localhost:5000/api/auth/login" v-on:click="logUser">Log in</a>
-            <a  href="http://localhost:5000/api/auth/logout" v-on:click="logoutUser">Log Out</a>
+            <a  href="http://auth.publify.aldon.info/api/auth/login" v-on:click="logUser">Log in</a>
+            <a  href="http://auth.publify.aldon.info/api/auth/logout" v-on:click="logoutUser">Log Out</a>
         </aside>
     </header>
 </template>

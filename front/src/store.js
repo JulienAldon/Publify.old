@@ -9,7 +9,7 @@ export const store = Vue.observable({
 
 export const mutations = {
     deleteUserPlaylistLink(id) {
-        fetch('http://localhost:5000/api/v1/playlist/'+id, {
+        fetch('http://auth.publify.aldon.info/api/v1/playlist/'+id, {
             headers: {
                 "Access-Control-Allow-credentials": true,
             },
@@ -34,7 +34,7 @@ export const mutations = {
             "collaborative": selectCollab,
             "public": selectPublic
         };
-        fetch('http://localhost:5000/api/v1/playlist', {
+        fetch('http://auth.publify.aldon.info/api/v1/playlist', {
             headers: {
                 "Content-Type": "application/json"
             },
@@ -55,7 +55,7 @@ export const mutations = {
         })
     },
     setUserPlaylistLinks() {
-        fetch ('http://localhost:5000/api/v1/playlist/all/links', {
+        fetch ('http://auth.publify.aldon.info/api/v1/playlist/all/links', {
             headers: {
                     'Access-Control-Allow-Credentials': true
             },
@@ -75,7 +75,7 @@ export const mutations = {
         })
     },
     setUserPlaylist() {
-        fetch ('http://localhost:5000/api/v1/playlist', {
+        fetch ('http://auth.publify.aldon.info/api/v1/playlist', {
             headers: {
                     'Access-Control-Allow-Credentials': true
             },
@@ -100,7 +100,7 @@ export const mutations = {
         var opts = {
             "direction": direction
         };
-        fetch('http://localhost:5000/api/v1/playlist/'+id+'/sync', {
+        fetch('http://auth.publify.aldon.info/api/v1/playlist/'+id+'/sync', {
             headers: {
                 "Access-Control-Allow-credentials": true,
                 "Content-Type": "application/json"

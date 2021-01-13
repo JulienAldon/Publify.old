@@ -4,7 +4,7 @@
     <div>
         <h1>Publify</h1>
         <h2>Welcome to Publify, the playlist Synchronizer</h2>
-        <a href="http://localhost/api/auth/login">LOGIN</a><br/>
+        <a href="http://auth.publify.aldon.info/api/auth/login">LOGIN</a><br/>
         <button v-on:click="logout()">LOGOUT</button>
         <p>{{info}}</p>
     </div>
@@ -17,7 +17,7 @@ export default {
         }
     },
     mounted () {
-        fetch('http://localhost/api/v1/playlist')
+        fetch('http://auth.publify.aldon.info/api/v1/playlist')
         .then(function (response) {
             return response.json();
         })
@@ -25,7 +25,7 @@ export default {
     },
     methods: {
         logout () {
-            fetch('http://localhost/api/auth/logout')
+            fetch('http://auth.publify.aldon.info/api/auth/logout')
             .then(function (response) {
                 return response.json()
             })
