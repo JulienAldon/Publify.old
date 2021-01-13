@@ -10,7 +10,7 @@ cors = CORS(app,
     supports_credentials=True, 
     max_age=86400, 
     origins=['auth.publify.aldon.info', 'publify.aldon.info'], 
-    ressources=resources={r"/api/*": {"origins": "http://auth.publify.aldon.info"}})
+    resources={r"/api/*": {"origins": "http://auth.publify.aldon.info"}})
 db = SQLAlchemy(app)
 
 
