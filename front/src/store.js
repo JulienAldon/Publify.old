@@ -41,6 +41,7 @@ export const mutations = {
             },
             credentials: "include",
             method: 'post',
+            mode: 'cors',
             body: JSON.stringify(opts)
         }).then(function(response) {
             return response.json();

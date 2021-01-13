@@ -68,7 +68,6 @@ class Radio(Resource):
 	def post(self):
 		return {}
 
-@cross_origin(origin='*')
 class Playlists(Resource):
 	def get(self):
 		try:
@@ -120,7 +119,6 @@ class Playlists(Resource):
 				}
 			})
 
-@cross_origin(origin='*')
 class PlaylistLinks(Resource):
 	def get(self, id):
 		try:
