@@ -16,7 +16,8 @@ export default {
     computed: {
         logged() {
                 return () => {
-                if (sessionStorage.getItem('status') != null) {
+                console.log(sessionStorage.getItem('status'));
+                if (sessionStorage.getItem('status') === "loggedOut") {
                     return false;
                 }
                 return true;
