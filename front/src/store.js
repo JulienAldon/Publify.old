@@ -12,6 +12,7 @@ export const mutations = {
         fetch('http://auth.publify.aldon.info/api/v1/playlist/'+id, {
             headers: {
                 "Access-Control-Allow-credentials": true,
+                "Access-Control-Allow-Origin": 'publify.aldon.info',
             },
             credentials: "include",
             method: 'delete',
@@ -37,7 +38,8 @@ export const mutations = {
         fetch('http://auth.publify.aldon.info/api/v1/playlist', {
             headers: {
                 "Content-Type": "application/json",
-                'Access-Control-Allow-Credentials': true
+                'Access-Control-Allow-Credentials': true,
+                "Access-Control-Allow-Origin": 'publify.aldon.info',
             },
             credentials: "include",
             method: 'post',
@@ -58,6 +60,7 @@ export const mutations = {
     setUserPlaylistLinks() {
         fetch ('http://auth.publify.aldon.info/api/v1/playlist/all/links', {
             headers: {
+                    "Access-Control-Allow-Origin": 'publify.aldon.info',
                     'Access-Control-Allow-Credentials': true
             },
             credentials: "include"
@@ -78,6 +81,7 @@ export const mutations = {
     setUserPlaylist() {
         fetch ('http://auth.publify.aldon.info/api/v1/playlist', {
             headers: {
+                    "Access-Control-Allow-Origin": 'publify.aldon.info',
                     'Access-Control-Allow-Credentials': true
             },
             credentials: "include"
@@ -103,6 +107,7 @@ export const mutations = {
         };
         fetch('http://auth.publify.aldon.info/api/v1/playlist/'+id+'/sync', {
             headers: {
+                "Access-Control-Allow-Origin": 'publify.aldon.info',
                 "Access-Control-Allow-credentials": true,
                 "Content-Type": "application/json"
             },
