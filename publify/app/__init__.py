@@ -7,7 +7,8 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 CORS(app,
-    resources={r"/*": {"origins": "publify.aldon.info"}},
+    origins=["publify.aldon.info"],
+    resources=r"api/*",
     supports_credentials=True
 )
 app.config['CORS_HEADERS'] = 'Content-Type'
