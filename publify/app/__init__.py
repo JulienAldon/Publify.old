@@ -7,7 +7,10 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 cors = CORS(app, 
-    resources={r'/*': {'origins': '*'}},
+    origins="http://publify.aldon.info", 
+    allow_headers=[
+        "Content-Type", "Authorization", "Access-Control-Allow-Credentials"
+    ],
     supports_credentials=True
 )
 app.config['CORS_HEADERS'] = 'Content-Type'
