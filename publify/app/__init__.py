@@ -13,7 +13,7 @@ CORS(app,
     CORS_ALWAYS_SEND=True,
     CORS_ALLOW_HEADERS="Authorization,Origin,Content-Type,Accept,X-Requested-With"
 )
-app.config['CORS_HEADERS'] = 'Content-Type'
+# app.config['CORS_HEADERS'] = 'Content-Type'
 db = SQLAlchemy(app)
 
 from app import api, models
