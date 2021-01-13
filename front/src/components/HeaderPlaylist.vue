@@ -19,6 +19,7 @@ export default {
     },
     methods: {
         logged() {
+            console.log(mutations.checkUserLogged());
             return mutations.checkUserLogged()
         },
         logoutUser() {
