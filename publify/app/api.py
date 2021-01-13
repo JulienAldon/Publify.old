@@ -57,7 +57,7 @@ def isAuthorized(func):
 def createError(msg, code, special=None):
 	if special:
 		return fk.jsonify({'error': msg , 'status': code, 'special': special})
-	return fk.Response(fk.jsonify({'error': msg , 'status': code}))
+	return fk.Response(msg, status=code)
 
 # resources
 class Radio(Resource):
