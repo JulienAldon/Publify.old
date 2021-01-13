@@ -10,7 +10,7 @@ CORS(app,
     origins=["https://publify.aldon.info", "http://publify.aldon.info"],
     supports_credentials=True
 )
-
+app.config['CORS_HEADERS'] = 'Content-Type'
 db = SQLAlchemy(app)
 
 from app import api, models
